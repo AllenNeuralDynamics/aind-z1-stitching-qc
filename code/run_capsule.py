@@ -8,10 +8,6 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import List, Optional, Union
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
-
 
 def _ensure_viewer_alias() -> None:
     if "neuroglancer_tile_viewer_more_quadrants" in sys.modules:
