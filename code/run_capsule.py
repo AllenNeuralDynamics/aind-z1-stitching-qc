@@ -7,15 +7,6 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import List, Optional, Union
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
-
-try:
-    import neuroglancer_tile_viewer_more_quadrants  # type: ignore  # noqa: F401
-except ModuleNotFoundError:
-    import ng_tile_viewer_quadrants as neuroglancer_tile_viewer_more_quadrants  # type: ignore
-    sys.modules["neuroglancer_tile_viewer_more_quadrants"] = neuroglancer_tile_viewer_more_quadrants
 
 from analyze_stitching import main as analyze_stitching_main  # type: ignore
 from utils.make_bigstitcher_view_settings import generate_settings_file  # type: ignore
