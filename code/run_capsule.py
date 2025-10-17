@@ -1,7 +1,6 @@
 """Top level orchestration script for the stitching QC capsule."""
 
 import argparse
-import importlib
 import os
 import sys
 from contextlib import contextmanager
@@ -12,22 +11,14 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
+try:
+    import neuroglancer_tile_viewer_more_quadrants  # type: ignore  # noqa: F401
+except ModuleNotFoundError:
+    import ng_tile_viewer_quadrants as neuroglancer_tile_viewer_more_quadrants  # type: ignore
+    sys.modules["neuroglancer_tile_viewer_more_quadrants"] = neuroglancer_tile_viewer_more_quadrants
 
-def _ensure_viewer_alias() -> None:
-    if "neuroglancer_tile_viewer_more_quadrants" in sys.modules:
-        return
-    try:
-        importlib.import_module("neuroglancer_tile_viewer_more_quadrants")
-    except ModuleNotFoundError:
-        module = importlib.import_module("ng_tile_viewer_quadrants")
-        sys.modules["neuroglancer_tile_viewer_more_quadrants"] = module
-
-
-_ensure_viewer_alias()
-analyze_stitching_module = importlib.import_module("analyze_stitching")
-view_settings_module = importlib.import_module("utils.make_bigstitcher_view_settings")
-analyze_stitching_main = getattr(analyze_stitching_module, "main")
-generate_settings_file = getattr(view_settings_module, "generate_settings_file")
+from analyze_stitching import main as analyze_stitching_main  # type: ignore
+from utils.make_bigstitcher_view_settings import generate_settings_file  # type: ignore
 
 
 def _find_datasets(root: Path) -> List[Path]:
