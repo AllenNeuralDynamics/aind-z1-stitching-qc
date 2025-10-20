@@ -6,8 +6,6 @@ import sys
 from contextlib import contextmanager
 from pathlib import Path
 from typing import List, Optional, Union
-
-
 from analyze_stitching import main as analyze_stitching_main  # type: ignore
 from utils.make_bigstitcher_view_settings import generate_settings_file  # type: ignore
 
