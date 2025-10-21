@@ -1,5 +1,5 @@
 from tile_analyzer import BigStitcherAnalyzer
-from neuroglancer_tile_viewer_more_quadrants import NeuroglancerTileConfig
+from ng_tile_viewer_quadrants import NeuroglancerTileConfig
 from pathlib import Path
 import shutil
 import json

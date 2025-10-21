@@ -115,7 +115,7 @@ class NeuroglancerTileConfig:
             if label not in self.group_labels:
                 self.group_labels.append(label)
 
-        # Build layer ordering (group � color)
+        # Build layer ordering (group color)
         self.layer_order = []
         for label in self.group_labels:
             self.layer_order.append((label, "Green"))
@@ -514,7 +514,7 @@ def main():
     parser.add_argument('--name-with-avg-corr', action='store_true',
                         help='Append average correlation value to each tile layer name')
     parser.add_argument('--quadrant', default='ALL', choices=['ALL', 'TL', 'TR', 'BL', 'BR'],
-                        help='If set, only that quadrants two color layers are visible initially')
+                        help='If set, only that quadrants two color layers are visible initially')
     parser.add_argument('--nominal', action='store_true',
                         help='If set, only apply nominal translation (no affine corrections)')
     parser.add_argument('--tiles-per-quadrant', type=int, default=None,
@@ -542,9 +542,9 @@ def main():
     )
 
     if args.tiles_per_quadrant:
-        print(f"Generating logical quadrants of {args.tiles_per_quadrant} tiles each (dynamic groups � Green/Red)...")
+        print(f"Generating logical quadrants of {args.tiles_per_quadrant} tiles each (dynamic groups  Green/Red)...")
     else:
-        print("Generating 8 quadrant-color layers (TL/TR/BL/BR � Green/Red)...")
+        print("Generating 8 quadrant-color layers (TL/TR/BL/BR  Green/Red)...")
     config = tile_config.generate_config()
     tile_config.save_config(config, args.output)
 
@@ -590,11 +590,11 @@ def main():
 
     print("\n=== Configuration Summary ===")
     if args.tiles_per_quadrant:
-        print(f"Created {len(tile_config.group_labels)} logical quadrants (groups) � 2 color layers = {len(tile_config.group_labels)*2} layers.")
+        print(f"Created {len(tile_config.group_labels)} logical quadrants (groups)  2 color layers = {len(tile_config.group_labels)*2} layers.")
         print("Only the first logical quadrant (" + tile_config.group_labels[0] + ") is visible by default.")
         print("Spatial quadrant filter ignored in dynamic grouping mode.")
     else:
-        print("Created 8 aggregated layers (quadrant � color).")
+        print("Created 8 aggregated layers (quadrant  color).")
         if args.quadrant and args.quadrant in ("TL", "TR", "BL", "BR"):
             print(f"Only quadrant {args.quadrant} layers set visible.")
         else:
@@ -605,4 +605,3 @@ def main():
 
 if __name__ == '__main__':
     main()
- 

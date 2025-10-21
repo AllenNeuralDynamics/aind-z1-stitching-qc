@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-"""
-BigStitcher XML Tile Analyzer
-
-This script parses BigStitcher XML files and extracts comprehensive information
-about each tile including resolution, transforms, and stitching results.
-"""
-
 import xml.etree.ElementTree as ET
 import numpy as np
 import argparse
@@ -13,7 +5,12 @@ import json
 from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass, asdict
 import pandas as pd
+"""
+BigStitcher XML Tile Analyzer
 
+This script parses BigStitcher XML files and extracts comprehensive information
+about each tile including resolution, transforms, and stitching results.
+"""
 @dataclass
 class TileInfo:
     """Container for tile information"""
@@ -328,28 +325,28 @@ class BigStitcherAnalyzer:
             return
             
         print(f"\n=== Overlap Analysis Summary ===")
-        print(f"Tile size: {overlap_info['tile_size_voxels'][0]} � {overlap_info['tile_size_voxels'][1]} � {overlap_info['tile_size_voxels'][2]} voxels")
-        print(f"Physical tile size: {overlap_info['tile_size_um'][0]:.1f} � {overlap_info['tile_size_um'][1]:.1f} � {overlap_info['tile_size_um'][2]:.1f} �m")
+        print(f"Tile size: {overlap_info['tile_size_voxels'][0]} um {overlap_info['tile_size_voxels'][1]} um {overlap_info['tile_size_voxels'][2]} voxels")
+        print(f"Physical tile size: {overlap_info['tile_size_um'][0]:.1f} um {overlap_info['tile_size_um'][1]:.1f} um {overlap_info['tile_size_um'][2]:.1f} um")
         
         print(f"\nGeometric Overlap (Design):")
         if 'x_overlap_pct' in overlap_info:
-            print(f"  X-direction: {overlap_info['x_overlap_um']:.1f} �m ({overlap_info['x_overlap_pct']:.1f}%)")
+            print(f"  X-direction: {overlap_info['x_overlap_um']:.1f} um ({overlap_info['x_overlap_pct']:.1f}%)")
             
         if 'y_overlap_pct' in overlap_info:
-            print(f"  Y-direction: {overlap_info['y_overlap_um']:.1f} �m ({overlap_info['y_overlap_pct']:.1f}%)")
+            print(f"  Y-direction: {overlap_info['y_overlap_um']:.1f} um ({overlap_info['y_overlap_pct']:.1f}%)")
         
         print(f"\nProcessing Overlap (Correlation window dimensions by direction):")
         if 'x_processing_overlap_avg' in overlap_info:
             # Convert to actual microns for the correlation window
             x_window_um = (overlap_info['x_processing_overlap_avg']/100) * overlap_info['tile_size_um'][0]
             x_pairs = overlap_info.get('x_direction_pairs_count', 0)
-            print(f"  X-direction pairs ({x_pairs}): {x_window_um:.1f} �m window ({overlap_info['x_processing_overlap_avg']:.1f}% of tile)")
+            print(f"  X-direction pairs ({x_pairs}): {x_window_um:.1f} um window ({overlap_info['x_processing_overlap_avg']:.1f}% of tile)")
             
         if 'y_processing_overlap_avg' in overlap_info:
             # Convert to actual microns for the correlation window
             y_window_um = (overlap_info['y_processing_overlap_avg']/100) * overlap_info['tile_size_um'][1]
             y_pairs = overlap_info.get('y_direction_pairs_count', 0)
-            print(f"  Y-direction pairs ({y_pairs}): {y_window_um:.1f} �m window ({overlap_info['y_processing_overlap_avg']:.1f}% of tile)")
+            print(f"  Y-direction pairs ({y_pairs}): {y_window_um:.1f} um window ({overlap_info['y_processing_overlap_avg']:.1f}% of tile)")
         
         print(f"\nProcessing Analysis:")
         print(f"The 'overlap_boundingbox' shows the correlation search window used by BigStitcher.")
@@ -360,8 +357,8 @@ class BigStitcherAnalyzer:
             geometric_y_um = overlap_info['y_overlap_um']
             ratio = overlap_info.get('y_processing_to_geometric_ratio', 0)
             
-            print(f"  Geometric Y overlap: {geometric_y_um:.1f} �m (10% design)")
-            print(f"  Processing Y window: {y_window_um:.1f} �m (correlation search area)")
+            print(f"  Geometric Y overlap: {geometric_y_um:.1f} um (10% design)")
+            print(f"  Processing Y window: {y_window_um:.1f} um (correlation search area)")
             print(f"  Window utilization: {ratio:.3f} ({ratio*100:.1f}% of geometric overlap)")
         
         if 'x_processing_overlap_avg' in overlap_info and 'x_overlap_pct' in overlap_info:
@@ -370,16 +367,16 @@ class BigStitcherAnalyzer:
             geometric_x_um = overlap_info['x_overlap_um']
             ratio = overlap_info.get('x_processing_to_geometric_ratio', 0)
             
-            print(f"  Geometric X overlap: {geometric_x_um:.1f} �m (10% design)")
-            print(f"  Processing X window: {x_window_um:.1f} �m (correlation search area)")
+            print(f"  Geometric X overlap: {geometric_x_um:.1f} um (10% design)")
+            print(f"  Processing X window: {x_window_um:.1f} um (correlation search area)")
             print(f"  Window utilization: {ratio:.3f} ({ratio*100:.1f}% of geometric overlap)")
         
         print(f"\nKey insights:")
-        print(f"  " BigStitcher separates X-direction and Y-direction tile pairs")
-        print(f"  " Each pair type uses appropriate correlation windows for its overlap direction")
-        print(f"  " Processing windows are conservative subsets of the geometric overlap")
-        print(f"  " Edge regions are avoided to prevent imaging artifacts from affecting alignment")
-        
+        print(f"   BigStitcher separates X-direction and Y-direction tile pairs")
+        print(f"   Each pair type uses appropriate correlation windows for its overlap direction")
+        print(f"   Processing windows are conservative subsets of the geometric overlap")
+        print(f"   Edge regions are avoided to prevent imaging artifacts from affecting alignment")
+
     def get_tile_neighbors(self, setup_id: int) -> List[Tuple[int, StitchingPair]]:
         """Get all neighboring tiles for a given setup ID"""
         neighbors = []
@@ -638,4 +635,4 @@ def main():
         print(f"Complete analysis exported to {args.json}")
 
 if __name__ == '__main__':
-    main() 
+    main()

@@ -41,7 +41,7 @@ def run(
         analyze_stitching_main()
 
     for dataset_dir in dataset_dirs:
-        dataset_xml = dataset_dir / "bigstitcher.xml"
+        dataset_xml = dataset_dir / "image_tile_alignment/bigstitcher.xml"
         if not dataset_xml.exists():
             print(f"Skipping {dataset_dir}: missing bigstitcher.xml")
             continue
@@ -50,7 +50,7 @@ def run(
         if existing_settings and not existing_settings.exists():
             existing_settings = None
 
-        output_xml = dataset_dir / output_settings_name
+        output_xml = Path("/results") / output_settings_name
         generate_settings_file(dataset_xml, output_xml, existing_settings=existing_settings)
 
 
@@ -81,6 +81,12 @@ def main() -> None:
     args = _parse_args()
     run(args.datasets_root, args.output_settings_name, args.existing_settings_name)
 
+def debug(): 
+    run (
+        datasets_root="/data/",
+        output_settings_name="generated_bigstitcher_view.settings.xml",
+    )
 
 if __name__ == "__main__":
-    main()
+    # main()
+    debug()
