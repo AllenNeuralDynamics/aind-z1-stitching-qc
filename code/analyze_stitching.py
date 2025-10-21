@@ -5,11 +5,14 @@ import shutil
 import json
 import urllib.parse
 
-def main():
+from matchviz_adapter import MatchvizOptions, generate_matchviz_artifacts
+
+def main(matchviz_options: MatchvizOptions | None = None):
     BASE_PATH = Path(".")
     datasets = sorted([b for b in BASE_PATH.iterdir() if b.is_dir() and b.name.startswith("HCR")])
     LIMIT_TILES_PER_QUADRANT = 50
     generate_quadrant_links = False
+    options = matchviz_options or MatchvizOptions()
 
     for curr_path in datasets:
         xml_file = curr_path / "bigstitcher.xml"
@@ -113,6 +116,8 @@ def main():
                     #     for label, fn, url in link_records:
                     #         tsv.write(f"{label}\t{fn}\t{url}\n")
                     # print(f"Per-quadrant/group links written to: {tsv_name}")
+
+            generate_matchviz_artifacts(curr_path, options)
 
 if __name__ == "__main__":
     main()

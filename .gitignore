@@ -2,6 +2,7 @@
 /data/
 /results/
 /scratch/
+/code/matchvis*
 metadata/metadata.yml
 
 # Byte-compiled / optimized / DLL files
@@ -152,3 +153,4 @@ dmypy.json
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
+.vscode
