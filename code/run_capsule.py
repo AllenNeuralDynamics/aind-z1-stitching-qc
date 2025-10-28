@@ -45,7 +45,7 @@ def run(
         analyze_stitching_main(matchviz_options=matchviz_options)
 
     for dataset_dir in dataset_dirs:
-        dataset_xml = dataset_dir / "image_tile_alignment/bigstitcher.xml"
+        dataset_xml = dataset_dir / "bigstitcher.xml"
         if not dataset_xml.exists():
             print(f"Skipping {dataset_dir}: missing bigstitcher.xml")
             continue
