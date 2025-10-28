@@ -11,7 +11,7 @@ def extract_grid_position_from_name(name):
 def generate_settings_file(dataset_xml, output_xml, existing_settings=None):
     GREEN = "-16711936"  # 0xFF00FF00 in signed int
     RED = "-65536"       # 0xFFFF0000 in signed int
-    
+    PURPLE = '-65281'
     print(f"Reading dataset XML {dataset_xml}")
     tree = ET.parse(dataset_xml)
     root = tree.getroot()
@@ -112,7 +112,7 @@ def generate_settings_file(dataset_xml, output_xml, existing_settings=None):
     
     for setup_id, x_pos, y_pos, name in tile_data_sorted:
         is_green = (x_pos + y_pos) % 2 == 0
-        color_value = GREEN if is_green else RED
+        color_value = GREEN if is_green else PURPLE
         
         setup = ET.SubElement(converter_setups, "ConverterSetup")
         
@@ -131,7 +131,7 @@ def generate_settings_file(dataset_xml, output_xml, existing_settings=None):
         group_id = ET.SubElement(setup, "groupId")
         group_id.text = "0"
         
-        color_name = "GREEN" if is_green else "RED"
+        color_name = "GREEN" if is_green else "PURPLE"
         print(f"Setup {setup_id:3d} at X={x_pos}, Y={y_pos} -> {color_name}")
     
     minmax_groups = ET.SubElement(setup_assignments, "MinMaxGroups")
@@ -153,10 +153,10 @@ def generate_settings_file(dataset_xml, output_xml, existing_settings=None):
     range_max.text = "65535.0"
     
     current_min = ET.SubElement(minmax_group, "currentMin")
-    current_min.text = "0.0"
+    current_min.text = "90.0"
     
     current_max = ET.SubElement(minmax_group, "currentMax")
-    current_max.text = "65535.0"
+    current_max.text = "1200.0"
     
     # ManualSourceTransforms
     transforms = ET.SubElement(root, "ManualSourceTransforms")
