@@ -8,8 +8,8 @@ import urllib.parse
 from matchviz_adapter import MatchvizOptions, generate_matchviz_artifacts
 
 def main(matchviz_options: MatchvizOptions | None = None):
-    BASE_PATH = Path(".")
-    datasets = sorted([b for b in BASE_PATH.iterdir() if b.is_dir() and b.name.startswith("HCR")])
+    BASE_PATH = Path("/data")
+    datasets = sorted([b for b in BASE_PATH.iterdir() if b.is_dir() and b.name.startswith("image_tile_alignment")])
     LIMIT_TILES_PER_QUADRANT = 50
     generate_quadrant_links = False
     options = matchviz_options or MatchvizOptions()

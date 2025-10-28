@@ -13,6 +13,8 @@ from matchviz_adapter import MatchvizOptions
 def _find_datasets(root: Path) -> List[Path]:
     return sorted(p for p in root.iterdir() if p.is_dir() and p.name.startswith("HCR"))
 
+def _get_data_folder() -> List[Path]: 
+    return [Path("../data")]
 
 @contextmanager
 def _pushd(path: Path):
@@ -34,9 +36,10 @@ def run(
     if not root_path.exists():
         raise FileNotFoundError(f"Datasets root '{root_path}' does not exist")
 
-    dataset_dirs = _find_datasets(root_path)
+    # dataset_dirs = _find_datasets(root_path)
+    dataset_dirs = _get_data_folder()
     if not dataset_dirs:
-        print(f"No datasets found under {root_path} matching prefix 'HCR'")
+        print(f"No datasets found under {root_path}")
 
     with _pushd(root_path):
         analyze_stitching_main(matchviz_options=matchviz_options)
