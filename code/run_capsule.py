@@ -45,19 +45,33 @@ def run(
         analyze_stitching_main(matchviz_options=matchviz_options)
 
     for dataset_dir in dataset_dirs:
-        dataset_xml = dataset_dir / "bigstitcher.xml"
-        if not dataset_xml.exists():
-            print(f"Skipping {dataset_dir}: missing bigstitcher.xml")
+        # Find all XML files matching the pattern "bigstitcher_*.xml"
+        dataset_xmls = sorted(dataset_dir.glob("bigstitcher_*.xml"))
+        
+        if not dataset_xmls:
+            print(f"Skipping {dataset_dir}: no files matching 'bigstitcher_*.xml' found")
             continue
 
-        existing_settings: Optional[Path] = None
-        if existing_settings_name:
-            candidate = dataset_dir / existing_settings_name
-            if candidate.exists():
-                existing_settings = candidate
+        # Process each matching XML file
+        for dataset_xml in dataset_xmls:
+            print(f"Processing {dataset_xml.name} in {dataset_dir}")
+            
+            existing_settings: Optional[Path] = None
+            if existing_settings_name:
+                candidate = dataset_dir / existing_settings_name
+                if candidate.exists():
+                    existing_settings = candidate
 
-        output_xml = Path("/results") / output_settings_name
-        generate_settings_file(dataset_xml, output_xml, existing_settings=existing_settings)
+            # Generate unique output filename if processing multiple files
+            if len(dataset_xmls) > 1:
+                # Extract the suffix from bigstitcher_*.xml and use it in the output name
+                suffix = dataset_xml.stem.replace("bigstitcher", "")
+                output_name = output_settings_name.replace(".xml", f"{suffix}.xml")
+                output_xml = Path("/results") / output_name
+            else:
+                output_xml = Path("/results") / output_settings_name
+            
+            generate_settings_file(dataset_xml, output_xml, existing_settings=existing_settings)
 
 
 def _parse_args() -> argparse.Namespace:
@@ -101,5 +115,13 @@ def debug():
     )
 
 if __name__ == "__main__":
-    # main()
-    debug()
+    main()
+    # debug()
+
+
+
+
+
+
+
+
