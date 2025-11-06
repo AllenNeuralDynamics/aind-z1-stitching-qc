@@ -46,7 +46,7 @@ def run(
 
     for dataset_dir in dataset_dirs:
         # Find all XML files matching the pattern "bigstitcher_*.xml"
-        dataset_xmls = sorted(dataset_dir.glob("bigstitcher_*.xml"))
+        dataset_xmls = sorted(dataset_dir.glob("bigstitcher*.xml"))
         
         if not dataset_xmls:
             print(f"Skipping {dataset_dir}: no files matching 'bigstitcher_*.xml' found")
